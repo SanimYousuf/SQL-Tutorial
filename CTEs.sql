@@ -1,4 +1,5 @@
---Manupulate complex subquery data
+-- CTE -> Common Table Expression
+--Manipulate complex sub-query data
 --Also called as With Query
 
 --Example:
