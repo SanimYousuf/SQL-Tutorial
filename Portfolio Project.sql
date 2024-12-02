@@ -47,3 +47,15 @@ From CovidDeaths
 Where continent is not null
 --Group by date
 Order by 1,2
+
+-- Total population VS Vaccinations:
+
+Select d.continent, d.location, d.date, d.population, v.new_vaccinations, 
+SUM(CONVERT(int, v.new_vaccinations)) 
+Over(Partition by d.location Order by d.location, d.date)
+From PortfolioProject..CovidDeaths as d
+Join PortfolioProject..CovidVaccinations as v
+	On d.location = v.location
+	and d.date = v.date
+	Where d.continent is not NULL
+	Order by 2,3
