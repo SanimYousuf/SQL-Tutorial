@@ -77,3 +77,32 @@ Join PortfolioProject..CovidVaccinations as v
 
 Select *, (VaccinatedPeople/population)*100 as Percentages
 From PopVsVac
+
+
+-- TEMP Table:
+
+Drop Table if exists #PercenetPopulationVaccinated
+
+Create Table #PercenetPopulationVaccinated
+(
+Continent nvarchar(250),
+Location nvarchar(250),
+Date datetime,
+Population numeric,
+New_Vaccination numeric,
+VaccinatedPeople numeric
+)
+
+Insert Into #PercenetPopulationVaccinated
+Select d.continent, d.location, d.date, d.population, v.new_vaccinations, 
+SUM(CONVERT(int, v.new_vaccinations)) 
+Over(Partition by d.location Order by d.location, d.date) as VaccinatedPeople
+From PortfolioProject..CovidDeaths as d
+Join PortfolioProject..CovidVaccinations as v
+	On d.location = v.location
+	and d.date = v.date
+	--Where d.continent is not NULL
+	--Order by 2,3	
+
+Select *, (VaccinatedPeople/population)*100 as Percentages
+From #PercenetPopulationVaccinated
