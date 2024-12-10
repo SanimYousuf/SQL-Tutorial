@@ -106,3 +106,21 @@ Join PortfolioProject..CovidVaccinations as v
 
 Select *, (VaccinatedPeople/population)*100 as Percentages
 From #PercenetPopulationVaccinated
+
+--Creating VIEW to store date for later visualization
+
+Create View PercentagePopulationVaccinated as
+Select d.continent, d.location, d.date, d.population, v.new_vaccinations, 
+	SUM(CONVERT(int, v.new_vaccinations)) 
+	Over(Partition by d.location Order by d.location, d.date) as VaccinatedPeople
+	From PortfolioProject..CovidDeaths as d
+	Join PortfolioProject..CovidVaccinations as v
+		On d.location = v.location
+		and d.date = v.date
+	Where d.continent is not NULL
+		--Order by 2,3	
+
+Select * From PercentagePopulationVaccinated
+
+-- Rename table:
+sp_rename PercenetPopulationVaccinated, PercentagePopulationVaccinated 
