@@ -140,3 +140,12 @@
     Where RowNum > 1
     --Order By PropertyAddress
 
+--Delete unused columns:
+	
+	Select * From NashvilleHousing
+
+	ALTER Table NashvilleHousing
+	Drop Column TaxDistrict, OwnerAddress, PropertyAddress;
+
+	Alter Table NashvilleHousing
+	Drop Column SaleDate
