@@ -124,3 +124,4 @@ Select * From PercentagePopulationVaccinated
 
 -- Rename table:
 sp_rename PercenetPopulationVaccinated, PercentagePopulationVaccinated 
+
